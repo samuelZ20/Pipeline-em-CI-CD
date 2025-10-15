@@ -31,4 +31,4 @@ jobs:
 
       # Passo 4: Roda os testes!
       - name: Rodar os testes
-        run: npx jest
+        run: node node_modules/jest/bin/jest.js
