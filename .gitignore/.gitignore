@@ -1,0 +1,10 @@
+# Dependências
+node_modules/
+
+# Arquivos de ambiente - Contêm segredos!
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
