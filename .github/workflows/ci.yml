@@ -1,0 +1,34 @@
+# Nome da sua pipeline, que aparecerá no GitHub
+name: Pipeline de CI
+
+# Define o gatilho: rodar sempre que houver um 'push' na branch 'main'
+on:
+  push:
+    branches: [ main ]
+
+# Define os "trabalhos" (jobs) que a pipeline vai executar
+jobs:
+  # O primeiro job se chama 'test'
+  test:
+    # A máquina virtual que o GitHub vai usar para rodar este job
+    runs-on: ubuntu-latest
+
+    # Os passos (steps) que o job vai executar em sequência
+    steps:
+      # Passo 1: Clona o seu repositório para dentro da máquina virtual
+      - name: Checkout do código
+        uses: actions/checkout@v4
+      
+      # Passo 2: Configura o ambiente Node.js na versão 18
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # Passo 3: Instala as dependências do projeto
+      - name: Instalar dependências
+        run: npm install
+
+      # Passo 4: Roda os testes!
+      - name: Rodar os testes
+        run: npm test
