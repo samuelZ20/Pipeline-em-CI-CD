@@ -2,6 +2,8 @@ name: Pipeline de CI/CD
 
 on:
   push:
+    branches: [ main, develop ]
+  pull_request:
     branches: [ main ]
 
 jobs:
@@ -19,14 +21,18 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     needs: test
+    
+   
+    # só vai rodar se o evento for um 'push'
+    # e se o nome da branch for 'main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
     permissions:
       contents: read
       packages: write
     
     steps:
-      - name: Fazer checkout do código
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Login no GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -34,16 +40,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # erro que ficou dando por conta do docker nao aceitar letras maiusculas
       - name: Gerar tag da imagem em minúsculas
         id: image-tag
         run: echo "TAG=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'):latest" >> $GITHUB_OUTPUT
-      # corrigimos o problema de letras maiúsculas
 
       - name: Construir e publicar imagem Docker
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          # Usamos a tag que geramos no passo anterior
           tags: ${{ steps.image-tag.outputs.TAG }}
