@@ -1,7 +1,20 @@
-import js from "@eslint/js";
-import globals from "globals";
-import { defineConfig } from "eslint/config";
+// eslint.config.mjs
+import globals from 'globals';
+import js from '@eslint/js';
 
-export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: globals.browser } },
-]);
+export default [
+  js.configs.recommended, // Usa as regras recomendadas do ESLint
+  {
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'commonjs', // Informa que estamos usando 'require'
+      globals: {
+        ...globals.node,  // Reconhece 'require', 'process', etc.
+        ...globals.jest  // Reconhece 'describe', 'it', 'expect', etc.
+      }
+    },
+    rules: {
+      // Você pode adicionar regras personalizadas aqui no futuro
+    }
+  }
+];
