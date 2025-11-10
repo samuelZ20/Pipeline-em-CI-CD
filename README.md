@@ -46,3 +46,20 @@ npm test
 
 # Inicie a aplicação
 npm start
+
+### 2. Rodando com Docker (Método Recomendado)
+
+Este método simula como a aplicação roda em produção.
+
+```bash
+# Clone o repositório
+git clone [https://github.com/samuelZ20/pipeline-em-ci-cd.git](https://github.com/samuelZ20/pipeline-em-ci-cd.git)
+
+# Entre na pasta do projeto
+cd pipeline-em-ci-cd
+
+# 1. Construa a imagem Docker
+docker build -t desafio-app .
+
+# 2. Rode a aplicação em um contêiner
+docker run --rm -p 8080:3000 desafio-app
