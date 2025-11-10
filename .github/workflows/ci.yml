@@ -15,8 +15,11 @@ jobs:
         with:
           node-version: '18'
       - run: npm install
+      - name: Rodar Linter (Verificar qualidade do código)
+      - run: npx eslint .
       - name: Rodar os testes
-        run: node node_modules/jest/bin/jest.js
+      - run: node node_modules/jest/bin/jest.js
+      
 
   build-and-push:
     runs-on: ubuntu-latest
